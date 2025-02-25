@@ -1,7 +1,7 @@
 on:
   push:
     branches:
-      - main
+
   pull_request:
     types: [opened, reopened]
 
@@ -25,6 +25,14 @@ jobs:
       pull-requests: write
       steps: 
         - uses: peter-evans/create-or-update-comment@v4
+          run: |
+              LINES=$(jq '.total.lines.pct' coverage/coverage-summary.json)
+              STATEMENTS=$(jq '.total.statements.pct' coverage/coverage-summary.json)
+              FUNCTIONS=$(jq '.total.functions.pct' coverage/coverage-summary.json)
+              BRANCHES=$(jq '.total.branches.pct' coverage/coverage-summary.json)
+
+              echo "::set-env name=coverage::Lines: $LINES, Statements: $STATEMENTS, Functions: $FUNCTIONS, Branches: $BRANCHES"
+              
           with:
             comment-id: ${{ github.event.comment.id }}
             issue-number: ${{ github.event.pull_request.number }}
@@ -32,8 +40,3 @@ jobs:
               ## Jest Coverage Report
               ${{ env.coverage }}
             edit-mode: replace
-            run: |
-              LINES=$(jq '.total.lines.pct' coverage/coverage-summary.json)
-              STATEMENTS=$(jq '.total.statements.pct' coverage/coverage-summary.json)
-              FUNCTIONS=$(jq '.total.functions.pct' coverage/coverage-summary.json)
-              BRANCHES=$(jq '.total.branches.pct' coverage/coverage-summary.json)
