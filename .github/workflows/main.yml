@@ -9,6 +9,9 @@ jobs:
   test:
     name: Run tests
     runs-on: ubuntu-latest
+    permissions:
+      contents: write, read
+      pull-requests: write
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -19,12 +22,6 @@ jobs:
       - run: jest test
       - run: jest --coverage
     
-  comment:
-    permissions:
-      contents: write
-      pull-requests: write 
-    runs-on: ubuntu-latest
-    steps:
       - uses: actions/checkout@v3
       - run: |
           LINES=$(jq '.total.lines.pct' coverage/coverage-summary.json)
