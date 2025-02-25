@@ -22,21 +22,23 @@ jobs:
   comment:
     permissions:
       contents: write
-      pull-requests: write
-      steps: 
-        - uses: peter-evans/create-or-update-comment@v4
-          run: |
-              LINES=$(jq '.total.lines.pct' coverage/coverage-summary.json)
-              STATEMENTS=$(jq '.total.statements.pct' coverage/coverage-summary.json)
-              FUNCTIONS=$(jq '.total.functions.pct' coverage/coverage-summary.json)
-              BRANCHES=$(jq '.total.branches.pct' coverage/coverage-summary.json)
+      pull-requests: write 
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: |
+          LINES=$(jq '.total.lines.pct' coverage/coverage-summary.json)
+          STATEMENTS=$(jq '.total.statements.pct' coverage/coverage-summary.json)
+          FUNCTIONS=$(jq '.total.functions.pct' coverage/coverage-summary.json)
+          BRANCHES=$(jq '.total.branches.pct' coverage/coverage-summary.json)
 
-              echo "coverage: $LINES% lines, $STATEMENTS% statements, $FUNCTIONS% functions, $BRANCHES% branches" > $GITHUB_ENV
-
-          with:
-            comment-id: ${{ github.event.comment.id }}
-            issue-number: ${{ github.event.pull_request.number }}
-            body: |
-              ## Jest Coverage Report
-              ${{ env.coverage }}
-            edit-mode: replace
+          echo "coverage: $LINES% lines, $STATEMENTS% statements, $FUNCTIONS% functions, $BRANCHES% branches" >> $GITHUB_ENV
+      - name: Create or update comment
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          comment-id: ${{ steps.fc.outputs.comment-id }}
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            ## Jest Coverage Report
+            ${{ env.coverage }}
+          edit-mode: replace
