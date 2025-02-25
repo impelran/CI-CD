@@ -24,10 +24,10 @@ jobs:
     
       - uses: actions/checkout@v3
       - run: |
-          LINES=$(jq '.total.lines.pct' coverage/coverage-summary.json)
-          STATEMENTS=$(jq '.total.statements.pct' coverage/coverage-summary.json)
-          FUNCTIONS=$(jq '.total.functions.pct' coverage/coverage-summary.json)
-          BRANCHES=$(jq '.total.branches.pct' coverage/coverage-summary.json)
+          LINES=$(jq '.total.lines.pct' ../../coverage/coverage-summary.json)
+          STATEMENTS=$(jq '.total.statements.pct' ../../coverage/coverage-summary.json)
+          FUNCTIONS=$(jq '.total.functions.pct' ../../coverage/coverage-summary.json)
+          BRANCHES=$(jq '.total.branches.pct' ../../coverage/coverage-summary.json)
 
           echo "coverage: $LINES% lines, $STATEMENTS% statements, $FUNCTIONS% functions, $BRANCHES% branches" >> $GITHUB_ENV
       - name: Create or update comment
