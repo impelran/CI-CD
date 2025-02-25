@@ -1,7 +1,7 @@
 on:
   push:
     branches:
-
+      - main
   pull_request:
     types: [opened, reopened]
 
@@ -32,7 +32,7 @@ jobs:
               BRANCHES=$(jq '.total.branches.pct' coverage/coverage-summary.json)
 
               echo "::set-env name=coverage::Lines: $LINES, Statements: $STATEMENTS, Functions: $FUNCTIONS, Branches: $BRANCHES"
-              
+
           with:
             comment-id: ${{ github.event.comment.id }}
             issue-number: ${{ github.event.pull_request.number }}
