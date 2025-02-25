@@ -90,5 +90,9 @@ function completeTodo(state, id) {
 
 module.exports = {
   deleteTodoAction,
-  completeTodoAction
-}
+  completeTodoAction,
+  addTodoAction,
+  completeTodo,
+  deleteTodo,
+  addTodo,
+};
