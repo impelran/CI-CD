@@ -31,7 +31,7 @@ jobs:
               FUNCTIONS=$(jq '.total.functions.pct' coverage/coverage-summary.json)
               BRANCHES=$(jq '.total.branches.pct' coverage/coverage-summary.json)
 
-              echo "::set-env name=coverage::Lines: $LINES, Statements: $STATEMENTS, Functions: $FUNCTIONS, Branches: $BRANCHES"
+              echo "coverage: $LINES% lines, $STATEMENTS% statements, $FUNCTIONS% functions, $BRANCHES% branches" > $GITHUB_ENV
 
           with:
             comment-id: ${{ github.event.comment.id }}
