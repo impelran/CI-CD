@@ -31,10 +31,10 @@ jobs:
               FUNCTIONS=$(jq '.total.functions.pct' coverage/coverage-summary.json)
               BRANCHES=$(jq '.total.branches.pct' coverage/coverage-summary.json)
 
-              echo "coverage: $LINES% lines, $STATEMENTS% statements, $FUNCTIONS% functions, $BRANCHES% branches" > $GITHUB_ENV
+              echo "coverage: $LINES% lines, $STATEMENTS% statements, $FUNCTIONS% functions, $BRANCHES% branches > $GITHUB_ENV"
 
           with:
-            comment-id: ${{ github.event.comment.id }}
+            comment-id: ${{ steps.fc.outputs.comment-id }}
             issue-number: ${{ github.event.pull_request.number }}
             body: |
               ## Jest Coverage Report
