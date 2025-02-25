@@ -17,3 +17,16 @@ jobs:
       - run: npm install
       - run: npm install -g jest
       - run: jest test
+      - run: jest --coverage
+    
+  comment:
+    permissions:
+      contents: write
+      pull-requests: write
+      steps: 
+      - uses: peter-evans/create-or-update-comment@v4
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            ## Test results
+            ${{ steps.jest.outputs.result }}
